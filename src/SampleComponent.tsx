@@ -1,21 +1,25 @@
-function Gallery() {
-  return (
-    <section>
-      <h2>Gallery</h2>
-      <Image />
-      <Image />
-      <Image />
-    </section>
-  )
+import { useEffect } from "react"
+
+function createConnection() {
+  return {
+    connect() {
+      console.log('connecting...')
+    },
+    disconnect() {
+      console.log('Disconnected...')
+    }
+  }
 }
 
-function Image() {
-  return (
-    <img
-      src="https://i.imgur.com/ZF6s192.jpg"
-      alt="'Floralis Genérica' by Eduardo Catalano: a gigantic metallic flower sculpture with reflective petals"
-    />
-  )
+function ChatRoom() {
+  useEffect(() => {
+    const connection = createConnection()
+    connection.connect()
+    return () => {
+      connection.disconnect()
+    }
+  }, [])
+  return <h2>welcome to chat</h2>
 }
 
-export default Gallery
+export default ChatRoom
