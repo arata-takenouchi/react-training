@@ -1,3 +1,14 @@
+function Gallery() {
+  return (
+    <section>
+      <h2>Gallery</h2>
+      <Image />
+      <Image />
+      <Image />
+    </section>
+  )
+}
+
 function Image() {
   return (
     <img
@@ -7,4 +18,4 @@ function Image() {
   )
 }
 
-export default Image
+export default Gallery
