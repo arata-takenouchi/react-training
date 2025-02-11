@@ -1,25 +1,47 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react";
 
-function createConnection() {
-  return {
-    connect() {
-      console.log('connecting...')
-    },
-    disconnect() {
-      console.log('Disconnected...')
-    }
-  }
-}
+function PlayGround() {
+  const [text, setText] = useState('a')
 
-function ChatRoom() {
   useEffect(() => {
-    const connection = createConnection()
-    connection.connect()
-    return () => {
-      connection.disconnect()
+    function onTimeout() {
+      console.log('time: ' + text)
     }
-  }, [])
-  return <h2>welcome to chat</h2>
+
+    console.log('schedule ' + text + ' log')
+    const timeoutId = setTimeout(onTimeout, 3000)
+
+    return () => {
+      console.log('cancel ' + text + ' log')
+      clearTimeout(timeoutId)
+    }
+  }, [text])
+
+  return (
+    <>
+      <label>
+        What to log:{' '}
+        <input
+          value={text}
+          onChange={e => setText(e.target.value)}
+        />
+      </label>
+      <h1>{text}</h1>
+    </>
+  )
 }
 
-export default ChatRoom
+function Sample() {
+  const [show, setShow] = useState(false)
+  return (
+    <>
+      <button onClick={() => setShow(!show)}>
+        {show ? 'Unmount' : 'Mount' }
+      </button>
+      {show && <hr />}
+      {show && <PlayGround />}
+    </>
+  )
+}
+
+export default Sample
