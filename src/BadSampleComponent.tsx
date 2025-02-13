@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react"
 
 // Bad
-function Form() {
-  const [firstName, setFirstName] = useState('Taylor')
-  const [lastName, setLastName] = useState('Swift')
+function TodoList({todos, filter}) {
+  const [newTodo, setNewTodo] = useState('')
 
-  const [fullName, setFullName] = useState('')
+  const [visibleTodos, setVisibleTodos] = useState([])
   useEffect(() => {
-    setFullName(firstName + ' ' + lastName)
-  }, [firstName, fullName])
+    setVisibleTodos(getFilteredTodos(todos, filter))
+  }, [todos, filter])
 }
 
 // ToBe
-function Form() {
-  const [firstName, setFirstName] = useState('Taylor')
-  const [lastName, setLastName] = useState('Swift')
+function TodoList({todos, filter}) {
+  const [newTodo, setNewTodo] = useState('')
 
-  const fullName = firstName + ' ' + lastName
+  const visibleTodos = getFilteredTodos(todos, filter)
 }
