@@ -1,31 +1,24 @@
 import { useEffect, useMemo, useState } from "react"
 
 // Bad
-function TodoList({todos, filter}) {
-  const [newTodo, setNewTodo] = useState('')
+function ProfilePage({ userId }) {
+  const [comment, setComment] = useState('')
 
-  const [visibleTodos, setVisibleTodos] = useState([])
   useEffect(() => {
-    setVisibleTodos(getFilteredTodos(todos, filter))
-  }, [todos, filter])
+    setComment('')
+  }, [userId])
 }
 
 // ToBe
-function TodoList({todos, filter}) {
-  const [newTodo, setNewTodo] = useState('')
-
-  console.time('filter array')
-  const visibleTodos = getFilteredTodos(todos, filter)
-  console.timeEnd('filter array')
+function ProfilePage({ userId }) {
+  return (
+    <Profile
+      userId={userId}
+      key={userId}
+    />
+  )
 }
 
-// more
-function TodoList({todos, filter}) {
-  const [newTodo, setNewTodo] = useState('')
-
-  console.time('memo function')
-  const visibleTodos = useMemo(() => {
-    return getFilteredTodos(todos, filter)
-  }, [todos, filter])
-  console.timeEnd('memo function')
+function Profile({ userid }) {
+  const [comment, setComment] = useState('')
 }
