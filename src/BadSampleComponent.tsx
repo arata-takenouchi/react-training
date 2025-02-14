@@ -1,24 +1,31 @@
 import { useEffect, useMemo, useState } from "react"
 
 // Bad
-function ProfilePage({ userId }) {
-  const [comment, setComment] = useState('')
+function List({items}) {
+  const [isReverse, setIsReverse] = useState(false)
+  const [selection, setSelection] = useState(null)
 
   useEffect(() => {
-    setComment('')
-  }, [userId])
+    setSelection(null)
+  }, [items])
 }
 
-// ToBe
-function ProfilePage({ userId }) {
-  return (
-    <Profile
-      userId={userId}
-      key={userId}
-    />
-  )
+// Better
+function List({items}) {
+  const [isReverse, setIsReverse] = useState(false)
+  const [selection, setSelection] = useState(null)
+
+  const [prevItems, setPrevItems] = useState(items)
+  if (items !== prevItems) {
+    setPrevItems(items)
+    setSelection(null)
+  }
 }
 
-function Profile({ userid }) {
-  const [comment, setComment] = useState('')
+// Best
+function List({items}) {
+  const [isReverse, setIsReverse] = useState(false)
+  const [selectedId, setSelectedId] = useState(null)
+
+  const selection = items.find(item => item.id === selectedId) ?? null
 }
