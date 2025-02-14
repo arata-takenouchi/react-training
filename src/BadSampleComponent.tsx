@@ -1,31 +1,36 @@
 import { useEffect, useMemo, useState } from "react"
 
 // Bad
-function List({items}) {
-  const [isReverse, setIsReverse] = useState(false)
-  const [selection, setSelection] = useState(null)
-
+function ProductPage({ product, addToCart }) {
   useEffect(() => {
-    setSelection(null)
-  }, [items])
-}
+    if (product.isInCart) {
+      showNotification(`Added ${product.name} to cart`)
+    }
+  }, [product])
 
-// Better
-function List({items}) {
-  const [isReverse, setIsReverse] = useState(false)
-  const [selection, setSelection] = useState(null)
+  function handleBuyClick() {
+    addToCart(product)
+  }
 
-  const [prevItems, setPrevItems] = useState(items)
-  if (items !== prevItems) {
-    setPrevItems(items)
-    setSelection(null)
+  function handleCheckoutClick() {
+    addToCart(product)
+    navigateTo('/checkout')
   }
 }
 
-// Best
-function List({items}) {
-  const [isReverse, setIsReverse] = useState(false)
-  const [selectedId, setSelectedId] = useState(null)
+// Better
+function ProductPage({ product, addToCart }) {
+  function buyProduct() {
+    addToCart(product)
+    showNotification(`Added ${product.name} to cart`)
+  }
 
-  const selection = items.find(item => item.id === selectedId) ?? null
+  function handleBuyClick() {
+    buyProduct(product)
+  }
+
+  function handleCheckoutClick() {
+    buyProduct(product)
+    navigateTo('/checkout')
+  }
 }
