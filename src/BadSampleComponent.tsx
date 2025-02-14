@@ -1,36 +1,38 @@
 import { useEffect, useMemo, useState } from "react"
 
 // Bad
-function ProductPage({ product, addToCart }) {
+function Form() {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+
   useEffect(() => {
-    if (product.isInCart) {
-      showNotification(`Added ${product.name} to cart`)
+    post('/analytics/event', {  eventName: 'visit_form' })
+  }, [])
+
+  const [jsonToSubmit, setJsonToSubmit] = useState(null)
+  useEffect(() => {
+    if (jsonToSubmit !== null) {
+      post('/api/register', jsonToSubmit)
     }
-  }, [product])
+  }, [jsonToSubmit])
 
-  function handleBuyClick() {
-    addToCart(product)
-  }
-
-  function handleCheckoutClick() {
-    addToCart(product)
-    navigateTo('/checkout')
+  function handleSubmit(e) {
+    e.preventDefault()
+    setJsonToSubmit({ firstName, lastName })
   }
 }
 
 // Better
-function ProductPage({ product, addToCart }) {
-  function buyProduct() {
-    addToCart(product)
-    showNotification(`Added ${product.name} to cart`)
-  }
+function Form() {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
-  function handleBuyClick() {
-    buyProduct(product)
-  }
+  useEffect(() => {
+    post('/analytics/event', {  eventName: 'visit_form' })
+  }, [])
 
-  function handleCheckoutClick() {
-    buyProduct(product)
-    navigateTo('/checkout')
+  function handleSubmit(e) {
+    e.preventDefault()
+    post('/api/register', { firstName, lastName })
   }
 }
