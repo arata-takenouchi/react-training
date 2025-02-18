@@ -1,48 +1,47 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react"
 
 // Bad
-function useOnlineStatus() {
-  const [isOnline, setIsOnline] = useState(true)
+function SearchResults({ query }) {
+  const [results, setResults] = useState([])
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
-    function updateState() {
-      setIsOnline(navigator.onLine)
-    }
-
-    updateState()
-
-    window.addEventListener('online', updateState)
-    window.addEventListener('offline', updateState)
-    return () => {
-      window.removeEventListener('online', updateState)
-      window.removeEventListener('offline', updateState)
-    }
-  }, [])
-  return isOnline
+    fetchResults(query, page).then(json => {
+      setResults(json)
+    })
+  }, [query, page])
 }
 
-function ChatIndecator() {
-  const isOnline = useOnlineStatus()
+function handleNextPageClick() {
+  setPage(page + 1)
 }
 
 // Better
-function subscribe(callback) {
-  window.addEventListener('online', callback)
-  window.addEventListener('offline', callback)
-  return () => {
-    window.removeEventListener('online', callback)
-    window.removeEventListener('offline', callback)
+function SearchResults({ query }) {
+  const [page, setPage] = useState(1)
+  const params = new URLSearchParams({ query, page })
+  const results = useData(`/api/search?${params}`)
+
+  function handleNextPageClick() {
+    setPage(page + 1)
   }
 }
 
-function useOnlineStatus() {
-  return useSyncExternalStore(
-    subscribe,
-    () => navigator.onLine,
-    () => true
-  )
-}
+function useData(url) {
+  const [data, setData] = useState(null)
 
-function ChatIndicator() {
-  const isOnline = useOnlineStatus()
+  useEffect(() => {
+    let ignore = false
+    fetch(url)
+      .then(response => response.json())
+      .then(json => {
+        if (!ignore) {
+          setData(json)
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [url])
+  return data
 }
