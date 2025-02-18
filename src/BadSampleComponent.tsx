@@ -1,44 +1,27 @@
 import { useEffect, useMemo, useState } from "react"
 
 // Bad
-function Toggle({ onChange }) {
-  const [isOn, setIsOn] = useState(false)
+function Parent() {
+  const [data, setData] = useState(null)
+  return <Child onFetched={setData} />
+}
+
+function Child({ onFetched }) {
+  const data = useSomeAPI()
 
   useEffect(() => {
-    onChange(isOn)
-  }, [isOn, onChange])
-
-  function handleClick() {
-    setIsOn(!isOn)
-  }
-
-  function handleDragEnd(e) {
-    if (isCloserToRightEdge(e)) {
-      setIsOn(true)
-    } else {
-      setIsOn(false)
+    if (data) {
+      onFetched(data)
     }
-  }
+  }, [onFetched, data])
 }
 
 // Better
-function Toggle({ onChange }) {
-  const [isOn, setIsOn] = useState(false)
+function Parent() {
+  const data = useSomeAPI()
+  return <Child data={data} />
+}
 
-  function updateToggle(nextIsOn) {
-    setIsOn(nextIsOn)
-    onChange(nextIsOn)
-  }
+function Child({ data }) {
 
-  function handleClick() {
-    updateToggle(!isOn)
-  }
-
-  function handleDragEnd(e) {
-    if (isCloserToRightEdge(e)) {
-      updateToggle(true)
-    } else {
-      updateToggle(false)
-    }
-  }
 }
