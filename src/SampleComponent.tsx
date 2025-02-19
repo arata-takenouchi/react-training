@@ -1,47 +1,27 @@
 import { useEffect, useState } from "react";
 
-function PlayGround() {
-  const [text, setText] = useState('a')
-
-  useEffect(() => {
-    function onTimeout() {
-      console.log('time: ' + text)
-    }
-
-    console.log('schedule ' + text + ' log')
-    const timeoutId = setTimeout(onTimeout, 3000)
-
-    return () => {
-      console.log('cancel ' + text + ' log')
-      clearTimeout(timeoutId)
-    }
-  }, [text])
+function Counter() {
+  const [number, setNumber] = useState(0)
 
   return (
     <>
-      <label>
-        What to log:{' '}
-        <input
-          value={text}
-          onChange={e => setText(e.target.value)}
-        />
-      </label>
-      <h1>{text}</h1>
-    </>
-  )
-}
+      <h1>{ number }</h1>
+      <button onClick={() => {
+        // setNumber(number + 1)
+        // setNumber(number + 1)
+        // setNumber(number + 1)
 
-function Sample() {
-  const [show, setShow] = useState(false)
-  return (
-    <>
-      <button onClick={() => setShow(!show)}>
-        {show ? 'Unmount' : 'Mount' }
+        // queue
+        // setNumber(n => n + 1)
+        // setNumber(n => n + 1)
+        // setNumber(n => n + 1)
+
+        setNumber(number + 5)
+        setNumber(n => n + 1)
+        setNumber(42)
+      }}>
+        +
       </button>
-      {show && <hr />}
-      {show && <PlayGround />}
     </>
   )
 }
-
-export default Sample
