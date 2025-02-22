@@ -1,47 +1,23 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react"
+import { useFormInput } from "./useFormInput"
 
-function useOnlineStatus() {
-  const [isOnline, setIsOnline] = useState(true)
-
-  useEffect(() => {
-    function handleOnline() {
-      setIsOnline(true)
-    }
-    function handleOffline() {
-      setIsOnline(false)
-    }
-    window.addEventListener('online', handleOnline)
-    window.addEventListener('offline', handleOffline)
-    return () => {
-      window.removeEventListener('online', handleOnline)
-      window.removeEventListener('offline', handleOffline)
-    }
-  }, [])
-  return isOnline
-}
-
-function StatusBar() {
-  const isOnline = useOnlineStatus()
-  return <h1>{isOnline ? 'Online' : 'Disconnected'}</h1>
-}
-
-export default StatusBar
-
-
-function SaveButton() {
-  const isOnline = useOnlineStatus()
-
-  function handleSaveClick() {
-    console.log('Progress saved')
-  }
+export default function Form() {
+  // const [firstName, setFirstName] = useState('Mary')
+  // const [lastName, setLastName] = useState('Poppins')
+  const firstNameProps = useFormInput('Mary')
+  const lastNameProps = useFormInput('Poppins')
 
   return (
-    <button
-      disabled={!isOnline}
-      onClick={handleSaveClick}>
-      {isOnline ? 'Save progress' : 'Reconnecting...'}
-    </button>
+    <>
+      <label>
+        First name:
+        <input {...firstNameProps} />
+      </label>
+      <label>
+        Last name:
+        <input {...lastNameProps} />
+      </label>
+      <p>{firstNameProps.value} {lastNameProps.value}</p>
+    </>
   )
 }
-
-export default SaveButton
