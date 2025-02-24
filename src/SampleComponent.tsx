@@ -1,23 +1,24 @@
 // import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useFormInput } from "./useFormInput"
+import ChatRoom from './ChatRoom';
 
-export default function Form() {
-  // const [firstName, setFirstName] = useState('Mary')
-  // const [lastName, setLastName] = useState('Poppins')
-  const firstNameProps = useFormInput('Mary')
-  const lastNameProps = useFormInput('Poppins')
-
+export default function Sample() {
+  const [roomId, setRoomId] = useState('general')
   return (
     <>
       <label>
-        First name:
-        <input {...firstNameProps} />
+        chat room: {' '}
+        <select>
+          value={roomId}
+          onChange={e => setRoomId(e.target.value)}
+          <option value="general">general</option>
+          <option value="travel">travel</option>
+          <option value="music">music</option>
+        </select>
       </label>
-      <label>
-        Last name:
-        <input {...lastNameProps} />
-      </label>
-      <p>{firstNameProps.value} {lastNameProps.value}</p>
+      <hr />
+      <ChatRoom roomId={roomId} />
     </>
   )
 }
