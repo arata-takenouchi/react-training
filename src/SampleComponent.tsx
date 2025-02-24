@@ -9,9 +9,9 @@ export default function Sample() {
     <>
       <label>
         chat room: {' '}
-        <select>
+        <select
           value={roomId}
-          onChange={e => setRoomId(e.target.value)}
+          onChange={e => setRoomId(e.target.value)}>
           <option value="general">general</option>
           <option value="travel">travel</option>
           <option value="music">music</option>
