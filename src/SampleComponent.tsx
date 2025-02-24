@@ -1,15 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 
-const roomId = 'general'
-const serverUrl = 'https://localhost:1234'
-
-// export default function ChatRoom({ roomId }) {
-export default function ChatRoom() {
-  // const [serverUrl, setServerUrl] = useState('https://localhost:1234')
-
-  // useEffect(() => {
-  //   logVisit(roomId)
-  // }, [roomId])
+export default function ChatRoom({ roomId, selectedServerUrl }) {
+  const settings = useContext(SettingsContext)
+  const serverUrl = selectedServerUrl ?? settings.defaultServerUrl
 
   useEffect(() => {
     const connection = createConnection(serverUrl, roomId)
@@ -17,6 +10,5 @@ export default function ChatRoom() {
     return () => {
       connection.disconnect()
     }
-  }, [])
-  // }, [roomId, serverUrl])
+  }, [roomId, serverUrl])
 }
