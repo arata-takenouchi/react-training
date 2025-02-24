@@ -1,24 +1,13 @@
-// import { useEffect, useState } from "react"
-import { useState } from "react"
-import { useFormInput } from "./useFormInput"
-import ChatRoom from './ChatRoom';
+import { useEffect } from "react"
 
-export default function Sample() {
-  const [roomId, setRoomId] = useState('general')
-  return (
-    <>
-      <label>
-        chat room: {' '}
-        <select
-          value={roomId}
-          onChange={e => setRoomId(e.target.value)}>
-          <option value="general">general</option>
-          <option value="travel">travel</option>
-          <option value="music">music</option>
-        </select>
-      </label>
-      <hr />
-      <ChatRoom roomId={roomId} />
-    </>
-  )
+const serverUrl = 'https://localhost:1234'
+
+export default function ChatRoom({ roomId }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId)
+    connection.connect()
+    return () => {
+      connection.disconnect()
+    }
+  }, [roomId])
 }
